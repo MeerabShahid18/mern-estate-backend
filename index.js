@@ -18,6 +18,9 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
+app.get("/api/test", (req, res) => {
+  res.send("API working 🚀");
+});
 
 app.use((err, req, res, next)=>{
     const statusCode=err.statusCode||500;
@@ -29,4 +32,5 @@ app.use((err, req, res, next)=>{
     });
     
 });
-app.listen(PORT, ()=> console.log("server is running on port 3000"));
+// app.listen(PORT, ()=> console.log("server is running on port 3000"));
+module.exports=app;
