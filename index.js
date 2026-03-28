@@ -18,7 +18,7 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
-app.get("/api/test", (req, res) => {
+app.get("/", (req, res) => {
   res.send("API working 🚀");
 });
 
@@ -34,11 +34,11 @@ app.use((err, req, res, next)=>{
 });
 // For serverless deployment on Vercel export a handler, but keep a
 // local listener for development so `npm run dev` still serves requests.
-const serverless = require('serverless-http');
+// const serverless = require('serverless-http');
 
-if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
-    module.exports = serverless(app);
-} else {
+// if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+//     module.exports = serverless(app);
+// } else {
     app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
-    module.exports = app;
-}
+    // module.exports = app;
+// }
