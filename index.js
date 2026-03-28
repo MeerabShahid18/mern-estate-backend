@@ -6,8 +6,19 @@ const authRouter=require("./routers/auth.router");
 const dotenv=require("dotenv");
 const listingRouter=require('./routers/listing.router');
 const cookieParser = require("cookie-parser");
+const cors = require('cors');
+app.use(cors());
 app.use(cookieParser());
 dotenv.config();
+
+app.use(cors({
+  origin: [
+    'https://mern-estate-frontend-8rp1evecj-meerabshahid18s-projects.vercel.app', 
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 const PORT = process.env.PORT || 3000;
 // mongoose.connect("mongodb+srv://meerabshahid270_db_user:m3hUumpcwVGE7OVk@cluster0.rpk2uw0.mongodb.net/?appName=Cluster0")
 // mongoose.connect("mongodb://127.0.0.1:27017/mern-estate") -------->local compass
