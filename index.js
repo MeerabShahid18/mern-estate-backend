@@ -6,33 +6,61 @@ const authRouter=require("./routers/auth.router");
 const dotenv=require("dotenv");
 const listingRouter=require('./routers/listing.router');
 const cookieParser = require("cookie-parser");
-const cors = require('cors');
-app.use(cors());
-app.use(cookieParser());
+// app.use(cors());
+
 dotenv.config();
 
-app.use(cors({
-  origin: [
-    'https://mern-estate-frontend-eight.vercel.app', 
-    'http://localhost:5173'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
-const PORT = process.env.PORT || 3000;
+const cors = require('cors');
+// ✅ CORS CONFIG (FINAL)
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (
+      origin.includes("vercel.app") ||
+      origin === "http://localhost:5173"
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+// 🔥 USE CORS (ONLY ONCE)
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+
+// app.use(cors({
+//   origin: [
+//     'https://mern-estate-frontend-eight.vercel.app', 
+//     'http://localhost:5173'
+//   ],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
+
 // mongoose.connect("mongodb+srv://meerabshahid270_db_user:m3hUumpcwVGE7OVk@cluster0.rpk2uw0.mongodb.net/?appName=Cluster0")
 // mongoose.connect("mongodb://127.0.0.1:27017/mern-estate") -------->local compass
-mongoose.connect(process.env.MONGO)
-.then(()=> console.log("Connected to MongoDb"))
-.catch((err)=> console.log(err));
+
+// Middlewares
+app.use(cookieParser());
 app.use(express.json());
+// Routes
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
 app.get("/", (req, res) => {
   res.send("API working 🚀");
 });
+// MongoDB Connection
+mongoose.connect(process.env.MONGO)
+.then(()=> console.log("Connected to MongoDb"))
+.catch((err)=> console.log(err));
 
+// Error Handler
 app.use((err, req, res, next)=>{
     const statusCode=err.statusCode||500;
     const message=err.message||"Internal server error";
@@ -43,14 +71,8 @@ app.use((err, req, res, next)=>{
     });
     
 });
-// For serverless deployment on Vercel export a handler, but keep a
-// local listener for development so `npm run dev` still serves requests.
-// const serverless = require('serverless-http');
-
-// if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
-//     module.exports = serverless(app);
-// } else {
-    app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
-    // module.exports = app;
-// }
+// 
+  // Server
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
 module.exports=app;
