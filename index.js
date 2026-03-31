@@ -30,7 +30,7 @@ dotenv.config();
 
 // // 🔥 USE CORS (ONLY ONCE)
 // app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
 
 
 app.use(cors({
