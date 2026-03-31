@@ -9,9 +9,24 @@ const cookieParser = require("cookie-parser");
 app.use(cors());
 dotenv.config();
 
+
+app.use(cors({
+  origin: [
+    'https://mern-estate-frontend-blush.vercel.app', 
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 // Middlewares
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGO)
+.then(()=> console.log("Connected to MongoDb"))
+.catch((err)=> console.log(err));
 
 // const cors = require('cors');
 // // ✅ CORS CONFIG (FINAL)
@@ -36,14 +51,7 @@ app.use(express.json());
 // app.options("*", cors(corsOptions));
 
 
-app.use(cors({
-  origin: [
-    'https://mern-estate-frontend-blush.vercel.app', 
-    'http://localhost:5173'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+
 
 // mongoose.connect("mongodb+srv://meerabshahid270_db_user:m3hUumpcwVGE7OVk@cluster0.rpk2uw0.mongodb.net/?appName=Cluster0")
 // mongoose.connect("mongodb://127.0.0.1:27017/mern-estate") -------->local compass
@@ -56,10 +64,7 @@ app.use("/api/listing", listingRouter);
 app.get("/", (req, res) => {
   res.send("API working 🚀");
 });
-// MongoDB Connection
-mongoose.connect(process.env.MONGO)
-.then(()=> console.log("Connected to MongoDb"))
-.catch((err)=> console.log(err));
+
 
 // Error Handler
 app.use((err, req, res, next)=>{
