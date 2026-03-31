@@ -7,8 +7,11 @@ const dotenv=require("dotenv");
 const listingRouter=require('./routers/listing.router');
 const cookieParser = require("cookie-parser");
 app.use(cors());
-
 dotenv.config();
+
+// Middlewares
+app.use(cookieParser());
+app.use(express.json());
 
 // const cors = require('cors');
 // // ✅ CORS CONFIG (FINAL)
@@ -45,9 +48,7 @@ app.use(cors({
 // mongoose.connect("mongodb+srv://meerabshahid270_db_user:m3hUumpcwVGE7OVk@cluster0.rpk2uw0.mongodb.net/?appName=Cluster0")
 // mongoose.connect("mongodb://127.0.0.1:27017/mern-estate") -------->local compass
 
-// Middlewares
-app.use(cookieParser());
-app.use(express.json());
+
 // Routes
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
@@ -75,4 +76,3 @@ app.use((err, req, res, next)=>{
   // Server
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
-module.exports=app;
