@@ -6,7 +6,8 @@ const authRouter=require("./routers/auth.router");
 const dotenv=require("dotenv");
 const listingRouter=require('./routers/listing.router');
 const cookieParser = require("cookie-parser");
-app.use(cors());
+const cors = require('cors');
+
 dotenv.config();
 
 
@@ -80,4 +81,9 @@ app.use((err, req, res, next)=>{
 // 
   // Server
   const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
+  if (process.env.NODE_ENV === 'development') {
+    app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
+  }
+
+  // Export a Vercel-compatible handler (and for other serverless platforms)
+  module.exports = (req, res) => app(req, res);
