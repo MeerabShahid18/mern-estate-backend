@@ -13,7 +13,7 @@ dotenv.config();
 
 app.use(cors({
   origin: [
-    'https://mern-estate-frontend-8rp1evecj-meerabshahid18s-projects.vercel.app', 
+    'https://mern-estate-frontend-eight.vercel.app', 
     'http://localhost:5173'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -53,3 +53,4 @@ app.use((err, req, res, next)=>{
     app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
     // module.exports = app;
 // }
+module.exports=app;
