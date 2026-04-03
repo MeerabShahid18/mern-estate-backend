@@ -20,39 +20,14 @@ app.use(cors({
   credentials: true
 }));
 // Middlewares
-app.use(cookieParser());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO)
 .then(()=> console.log("Connected to MongoDb"))
 .catch((err)=> console.log(err));
-
-// const cors = require('cors');
-// // ✅ CORS CONFIG (FINAL)
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin) return callback(null, true);
-
-//     if (
-//       origin.includes("vercel.app") ||
-//       origin === "http://localhost:5173"
-//     ) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-// };
-
-// // 🔥 USE CORS (ONLY ONCE)
-// app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions));
-
-
-
 
 // mongoose.connect("mongodb+srv://meerabshahid270_db_user:m3hUumpcwVGE7OVk@cluster0.rpk2uw0.mongodb.net/?appName=Cluster0")
 // mongoose.connect("mongodb://127.0.0.1:27017/mern-estate") -------->local compass
@@ -81,9 +56,10 @@ app.use((err, req, res, next)=>{
 // 
   // Server
   const PORT = process.env.PORT || 3000;
-  if (process.env.NODE_ENV === 'development') {
-    app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
+  // }
 
-  // Export a Vercel-compatible handler (and for other serverless platforms)
-  module.exports = (req, res) => app(req, res);
+  // // Export a Vercel-compatible handler (and for other serverless platforms)
+  // module.exports = (req, res) => app(req, res);
+  app.listen(PORT, ()=> console.log(`server is running on port ${PORT}`));
